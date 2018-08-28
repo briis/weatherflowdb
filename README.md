@@ -28,6 +28,7 @@ The system broadcast the data in the following intervals:
   <li><strong>maintenance.php</strong> This script should run once a day, prefereable right after midnight, and will at current, clean-up the rapid wind table for data older than a day, so that this table is not growing too big.</li>
   <li><strong>forecast.php</strong> Includes functions to load Daily and Hourly forecast from one or all of the three forecast providers described below. The functions are called from the dailysummary.php file.</li>
   <li><strong>cumulusfunctions.php</strong> This file contains functions that are used to simulate some of the functions found in Sandaysoft Cumulus and CumulusMX program.</li>
+  <li><strong>moonphase.php</strong> Script by Samir Shah, that calculates different moon related values.</li>
   <li><strong>install directory</strong> This directory contains files that are explained in the Installation section. Once the initial installation is done, these are not needed anymore.</li>
   <li><strong>history directory</strong> In here you will the files necessary to load all historic data from the WeatherFlow REST API.</li>
 </ul>
