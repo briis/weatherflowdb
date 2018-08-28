@@ -21,23 +21,23 @@ $UTC = 2;                   //Specifies the difference between GMT and local tim
 $stationID = 2777;          //The ID your WeatherFlow Station has been assigned
 
 //YR.NO Forecast Link
-$LoadYRForecast = False;    //True if you want to load forecast from YR.no else False
+$LoadYRForecast = True;    //True if you want to load forecast from YR.no else False
 $forecasturl = "https://www.yr.no/place/Denmark/Capital/Fredensborg"; //URL to pull forecast from
 
 //DarkSky Forecast
 $LoadDSForecast = False;    //True if you want to load forecast from DarkSky else False
-$DSAPIKey = "753ba3e433efaca0a83c299828153bb4"; //API Key for DarkSky - Needs to be filled if above is True
+$DSAPIKey = "[Insert API KEY]"; //API Key for DarkSky - Needs to be filled if above is True
 $DSLanguage = "da";  //DarkSky Language
 $DSUnit = "si"; //DarkSky Units
 
 //Weather Underground Forecast
-$LoadWUForecast = True;     //True if you want to load forecast from Wather Underground else False
-$WUAPIKey = "bd9b76f1b05bc38c"; //WU API Key - Needs to be filled if above is True
+$LoadWUForecast = False;     //True if you want to load forecast from Wather Underground else False
+$WUAPIKey = "[Insert API KEY]"; //WU API Key - Needs to be filled if above is True
 $WULanguage = "DK"; //Weather Underground Units
 
 // Cumulus Settings
 $createRealtimeFile = True; //True if you want the program to create realtime.txt file
-$realtimeFilePath = "/Users/bjarne/documents/weatherflowdb/realtime.txt"; //Location where to store realtime.txt
+$realtimeFilePath = "/tmp/realtime.txt"; //Location where to store realtime.txt
 
 // Define Database Connection
 $dbserver = "localhost";
