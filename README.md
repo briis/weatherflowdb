@@ -40,7 +40,7 @@ This procedure assumes you are on a Linux based system, but I see no reason why 
   <li>Now we need to create the database. Go to the main directory where you placed the files and type:<br>
   <i>mysql -u root -p < install/createdatabase.sql</i><br>
     Enter your root password, and if all goes well, you should, after a few seconds, have the MYSQL database setup.</li>
-  <li>Next step is to setup the realtime.php file to run whenever the system reboots and run in the background. For a Linux system I have included the file <i>weatherflowdb.service</i> in the install directory. Do the following to install the file and start the service:<br><ul>
+  <li>Next step is to setup the datalogger.php file to run whenever the system reboots and run in the background. For a Linux system I have included the file <i>weatherflowdb.service</i> in the install directory. Do the following to install the file and start the service:<br><ul>
     <li>Edit the file and change the parameter <i>ExecStart</i> so that it points to correct directory where the datalogger.php file is located.</li>
     <li>Copy the file to the system directory: <br>sudo cp install/weatherflowdb.service /etc/systemd/system/weatherflowdb.service</li>
     <li>Enable the Service to run: sudo systemctl enable weatherflowdb.service</li>
