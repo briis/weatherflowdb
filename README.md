@@ -42,7 +42,7 @@ This procedure assumes you are on a Linux based system, but I see no reason why 
   <i>mysql -u root -p < install/createdatabase.sql</i><br>
     Enter your root password, and if all goes well, you should, after a few seconds, have the MYSQL database setup.</li>
   <li>Next step is to setup the datalogger.php file to run whenever the system reboots and run in the background. For a Linux system I have included the file <i>weatherflowdb.service</i> in the install directory. Do the following to install the file and start the service:<br><ul>
-    <li>Edit the file and change the parameter <i>ExecStart</i> so that it points to correct directory where the datalogger.php file is located.</li>
+    <li>Edit the file and change the parameter <i>ExecStart</i> so that it points to the correct directory where the datalogger.php file is located.</li>
     <li>Copy the file to the system directory: <br>sudo cp install/weatherflowdb.service /etc/systemd/system/weatherflowdb.service</li>
     <li>Enable the Service to run: sudo systemctl enable weatherflowdb.service</li>
     <li>Start the service right away: sudo systemctl start weatherflowdb.service</li></ul></li>
@@ -52,11 +52,10 @@ This procedure assumes you are on a Linux based system, but I see no reason why 
       <li>Save the file and you are all set.</li></ul></li>
   <li>Finally setup the maintenance.php file to run 10 minutes past midnight. Repeat the <i>crontab</i> steps above, this time just type:<br>10 0 * * * /usr/bin/php /[YOUR_WEATHERFLOWDB_DIRECTORY]/maintenance.php</li>
 </ol>
-That is all there is to it. You should now start seing data coming in to the MYSQL database.
+All 3 scripts should now be active and you should start seing data coming in to the MYSQL database.
 
 <h4>Loading Historic Data</h4>
 <ol type="1">
-  <li>If you were running a previous version of the system, the Database needs to be changed before loading data. So open a terminal window, go to the directory where you placed WeatherFlowDB and type:<br><i>mysql -uroot -p < install/alter_database_1_005.sql</i><br>When this is done, the database now has the correct format.
   <li>Edit the file <i>history_settings.php</i> in the history directory, and enter your own numbers for the devices in each field. If you don't know what they are you can paste the following into a web browser, replacing [STATIONID] with the ID of your own Station.<br>
   https://swd.weatherflow.com/swd/rest/stations/[STATIONID]?api_key=20c70eae-e62f-4d3b-b3a4-8586e90f3ac8</li>
   <li>When history_settings.php has been updated, open a Terminal Window, go to the history directory and execute the following command:<br>
