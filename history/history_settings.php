@@ -1,10 +1,10 @@
 <?php
-$hub_sn = "HB-00002036";
+$hub_sn = "Insert Serial Number";
 
-$airdevice = 5358;
-$airserial_number = "AR-00006392";
+$airdevice = Insert Device ID;
+$airserial_number = "Insert Serial Number";
 
-$skydevice = 11135;
-$skyserial_number = "SK-00005318";
+$skydevice = Insert Device ID;
+$skyserial_number = "Insert Serial Number";
 
 ?>
