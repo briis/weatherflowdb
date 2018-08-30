@@ -497,7 +497,7 @@ select
 cast(`weatherflowdb`.`sky_observations`.`datestamp` as date) AS `day_stamp`,
 hour(`weatherflowdb`.`sky_observations`.`datestamp`) AS `hour_stamp`,
 sum(`weatherflowdb`.`sky_observations`.`rain_minute`) AS `rain_total`,
-max(`weatherflowdb`.`sky_observations`.`rain_rate`) AS `rain_rate`
+avg(`weatherflowdb`.`sky_observations`.`rain_rate`) AS `rain_rate`
 from `weatherflowdb`.`sky_observations`
 group by `day_stamp`,`hour_stamp`
 order by `day_stamp`,`hour_stamp`;
