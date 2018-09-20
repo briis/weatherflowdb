@@ -107,11 +107,15 @@ try {
       $rawdata = json_decode(getWUDailyForecast($WUAPIKey, $latitude, $longitude, $WULanguage, $TZ));
 
       foreach($rawdata as $i => $row) {
-        $SQL = "INSERT INTO weatherflowdb.forecastWU_daily (datestamp, description, imagename, tempMax, tempMin, precipitation, precipProbability, windSpeed, windDirection, avgbearing, pressure, uvindex, copyrighttext, copyrighturl) VALUES ";
+        $ins1 = ", updatetime";
+        $ins2 = "', '".$row->updatetime;
+        $upd = "', updatetime = '".$row->updatetime;
+
+        $SQL = "INSERT INTO weatherflowdb.forecastWU_daily (datestamp, description, imagename, tempMax, tempMin, precipitation, precipProbability, windSpeed, windDirection, avgbearing, pressure, uvindex, copyrighttext, copyrighturl".$ins1.") VALUES ";
         $SQL .= "('".$row->datestamp."', '".$row->description."', '".$row->imagename."', ".$row->tempmax.", ".$row->tempmin.", ".$row->precipitation.", ".$row->precipProbability.", ".$row->windSpeed.", '".$row->windDirection."'";
-        $SQL .= ", ".$row->avgbearing.", ".$row->pressure.", ".$row->uvindex.", '".$row->copyrighttext."', '".$row->copyrighturl."') ";
+        $SQL .= ", ".$row->avgbearing.", ".$row->pressure.", ".$row->uvindex.", '".$row->copyrighttext."', '".$row->copyrighturl.$ins2."') ";
         $SQL .= "ON DUPLICATE KEY UPDATE description = '".$row->description."', imagename = '".$row->imagename."', tempMax = ".$row->tempmax.", tempMin = ".$row->tempmin.", precipitation = ".$row->precipitation.", precipProbability = ".$row->precipProbability.", windSpeed = ".$row->windSpeed;
-        $SQL .= ", windDirection = '".$row->windDirection."', avgbearing = ".$row->avgbearing.", pressure = ".$row->pressure.", uvindex = ".$row->uvindex.", copyrighttext = '".$row->copyrighttext."', copyrighturl = '".$row->copyrighturl."';";
+        $SQL .= ", windDirection = '".$row->windDirection."', avgbearing = ".$row->avgbearing.", pressure = ".$row->pressure.", uvindex = ".$row->uvindex.", copyrighttext = '".$row->copyrighttext."', copyrighturl = '".$row->copyrighturl.$upd."';";
 
         //Insert the Record in to the Database
         if ($conn->query($SQL) != TRUE) {
@@ -122,11 +126,15 @@ try {
       // Load the Hourly Forecast from Weather Underground
       $rawdata = json_decode(getWUHourlyForecast($WUAPIKey, $latitude, $longitude, $WULanguage, $TZ));
       foreach($rawdata as $i => $row) {
-        $SQL = "INSERT INTO weatherflowdb.forecastWU_hourly (datestamp, description, imagename, temperature, precipitation, precipProbability, windSpeed, windDirection, avgbearing, pressure, uvindex, copyrighttext, copyrighturl) VALUES ";
+        $ins1 = ", updatetime";
+        $ins2 = "', '".$row->updatetime;
+        $upd = "', updatetime = '".$row->updatetime;
+
+        $SQL = "INSERT INTO weatherflowdb.forecastWU_hourly (datestamp, description, imagename, temperature, precipitation, precipProbability, windSpeed, windDirection, avgbearing, pressure, uvindex, copyrighttext, copyrighturl".$ins1.") VALUES ";
         $SQL .= "('".$row->datestamp."', '".$row->description."', '".$row->imagename."', ".$row->temperature.", ".$row->precipitation.", ".$row->precipProbability.", ".$row->windSpeed.", '".$row->windDirection."'";
-        $SQL .= ", ".$row->avgbearing.", ".$row->pressure.", ".$row->uvindex.", '".$row->copyrighttext."', '".$row->copyrighturl."') ";
+        $SQL .= ", ".$row->avgbearing.", ".$row->pressure.", ".$row->uvindex.", '".$row->copyrighttext."', '".$row->copyrighturl.$ins2."') ";
         $SQL .= "ON DUPLICATE KEY UPDATE description = '".$row->description."', imagename = '".$row->imagename."', temperature = ".$row->temperature.", precipitation = ".$row->precipitation.", precipProbability = ".$row->precipProbability.", windSpeed = ".$row->windSpeed;
-        $SQL .= ", windDirection = '".$row->windDirection."', avgbearing = ".$row->avgbearing.", pressure = ".$row->pressure.", uvindex = ".$row->uvindex.", copyrighttext = '".$row->copyrighttext."', copyrighturl = '".$row->copyrighturl."';";
+        $SQL .= ", windDirection = '".$row->windDirection."', avgbearing = ".$row->avgbearing.", pressure = ".$row->pressure.", uvindex = ".$row->uvindex.", copyrighttext = '".$row->copyrighttext."', copyrighturl = '".$row->copyrighturl.$upd."';";
 
         //Insert the Record in to the Database
         if ($conn->query($SQL) != TRUE) {

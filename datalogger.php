@@ -2,7 +2,7 @@
 // WeatherFlowDB is a Program to capture data using UDP from a WeatherFlow Weather Station
 // All data is stored in a MYSQL database and can be retrieved from there
 // Author: Bjarne Riis
-// Last Updated: 18 Aug 2018
+// Last Updated: 19 Sep 2018
 // Filename: datalogger.php
 // - This part of the program runs as an infinitive loop and listens for data from the Weather Station
 //   and stores them in the database.
@@ -13,7 +13,7 @@ include('weatherfunctions.php');
 include('cumulusfunctions.php');
 
 $program_version = "1.0";
-$program_build = "012";
+$program_build = "013";
 
 // Setup Error Logging
 $errorFile = $logdirectory.'weatherflowdb-datalogger-errors.log';

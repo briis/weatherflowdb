@@ -162,6 +162,7 @@ function getDarkSkyHourlyForecast($apiKey, $lat, $lon, $language, $unit, $TZ) {
   $forecast_url = "https://api.darksky.net/forecast/".$apiKey."/".$lat.",".$lon."?exclude=currently,minutely&lang=".$language."&units=".$unit;
   $downloadfile = True;
   $forecast_file = "data/dsforecast.json";
+  $updatetime = date("1970-01-01");
 
   if (file_exists($forecast_file)) {
     $lastmodified = date("Y-m-d H:i:s",filectime($forecast_file));
@@ -170,6 +171,7 @@ function getDarkSkyHourlyForecast($apiKey, $lat, $lon, $language, $unit, $TZ) {
 
     if ($downloadfile) {
       file_put_contents($forecast_file, fopen($forecast_url, 'r'));
+      $updatetime = date("Y-m-d H:i");
     }
 
   //We now have the latest forecast as a file, load it.
@@ -214,11 +216,13 @@ function getDarkSkyHourlyForecast($apiKey, $lat, $lon, $language, $unit, $TZ) {
 
     if (file_exists($forecast_file)) {
       $lastmodified = date("Y-m-d H:i:s",filectime($forecast_file));
+      $updatetime = $lastmodified;
       if (strtotime($lastmodified) < time() - (60*60*2)) {$downloadfile = True;} else {$downloadfile = False;}
     }
 
     if ($downloadfile) {
       file_put_contents($forecast_file, fopen($forecast_url, 'r'));
+      $updatetime = date("Y-m-d H:i");
     }
 
     //We now have the latest forecast as a file, load it.
@@ -247,7 +251,7 @@ function getDarkSkyHourlyForecast($apiKey, $lat, $lon, $language, $unit, $TZ) {
       $copyrighttext = "Weather Underground";
       $copyrighturl = "https://www.wunderground.com/personal-weather-station/dashboard?ID=I84SOHOL2";
 
-      $data=array("datestamp"=>$datestamp,"description"=>$summary,"imagename"=>$icon, "tempmax"=>$tempmax, "tempmin"=>$tempmin,"precipitation"=>$precipitation,"precipProbability"=>$precipProbability,"windSpeed"=>$windSpeed,"windDirection"=>$windDirection,"avgbearing"=>$avgbearing,"pressure"=>$pressure,"uvindex"=>$uvindex,"copyrighttext"=>$copyrighttext,"copyrighturl"=>$copyrighturl);
+      $data=array("datestamp"=>$datestamp,"description"=>$summary,"imagename"=>$icon, "tempmax"=>$tempmax, "tempmin"=>$tempmin,"precipitation"=>$precipitation,"precipProbability"=>$precipProbability,"windSpeed"=>$windSpeed,"windDirection"=>$windDirection,"avgbearing"=>$avgbearing,"pressure"=>$pressure,"uvindex"=>$uvindex,"copyrighttext"=>$copyrighttext,"copyrighturl"=>$copyrighturl,"updatetime"=>$updatetime);
       $forecastarray[]=$data;
 
       }
@@ -264,11 +268,13 @@ function getDarkSkyHourlyForecast($apiKey, $lat, $lon, $language, $unit, $TZ) {
 
       if (file_exists($forecast_file)) {
         $lastmodified = date("Y-m-d H:i:s",filectime($forecast_file));
+        $updatetime = $lastmodified;
         if (strtotime($lastmodified) < time() - (60*60*2)) {$downloadfile = True;} else {$downloadfile = False;}
       }
 
       if ($downloadfile) {
         file_put_contents($forecast_file, fopen($forecast_url, 'r'));
+        $updatetime = date("Y-m-d H:i");
       }
 
       //We now have the latest forecast as a file, load it.
@@ -296,7 +302,7 @@ function getDarkSkyHourlyForecast($apiKey, $lat, $lon, $language, $unit, $TZ) {
         $copyrighttext = "Weather Underground";
         $copyrighturl = "https://www.wunderground.com/personal-weather-station/dashboard?ID=I84SOHOL2";
 
-        $data=array("datestamp"=>$datestamp,"description"=>$summary,"imagename"=>$icon, "temperature"=>$temperature,"precipitation"=>$precipitation,"precipProbability"=>$precipProbability,"windSpeed"=>$windSpeed,"windDirection"=>$windDirection,"avgbearing"=>$avgbearing,"pressure"=>$pressure,"uvindex"=>$uvindex,"copyrighttext"=>$copyrighttext,"copyrighturl"=>$copyrighturl);
+        $data=array("datestamp"=>$datestamp,"description"=>$summary,"imagename"=>$icon, "temperature"=>$temperature,"precipitation"=>$precipitation,"precipProbability"=>$precipProbability,"windSpeed"=>$windSpeed,"windDirection"=>$windDirection,"avgbearing"=>$avgbearing,"pressure"=>$pressure,"uvindex"=>$uvindex,"copyrighttext"=>$copyrighttext,"copyrighturl"=>$copyrighturl,"updatetime"=>$updatetime);
         $forecastarray[]=$data;
 
         }
