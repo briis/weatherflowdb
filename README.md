@@ -1,11 +1,13 @@
 # WeatherFlowDB
 This set of PHP Scripts reads UDP data from a WeatherFlow Weather System and stores them in realtime in a MYSQL Database.
 
-<strong>Version</strong>: 1.0-012
+<strong>Version</strong>: 1.0-013
 
 The Company WeatherFlow (https://weatherflow.com) has created an excellent and low cost Weather Station that can broadcast data in realtime over UDP. The aim of this program is to capture these data, make some Weather related calculations, and then store that data in realtime in a MYSQL database.
 
 As I have been using CumulusMX software from Sandaysoft (https://sandaysoft.com) for many years, a lot of the display option I use is reliant on the realtime.txt format that Cumulus supplies. So this system also creates a table called realtime, that more or less matches the realtime.txt format from Cumulus. The table is updated every 3-5 seconds, depending on how often we see Rapid Wind data.
+
+Here is a link to my Weather site, that uses the data produced by WeatherFlowDB: https://vejr.briis.com
 
 The system broadcast the data in the following intervals:
 - Rapid Wind data: every 5 seconds (Wind Speed and Wind Direction)
