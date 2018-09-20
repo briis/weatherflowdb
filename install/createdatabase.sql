@@ -176,7 +176,7 @@ CREATE TABLE weatherflowdb.forecast_hourly (
 DROP TABLE IF EXISTS weatherflowdb.forecastDS_daily;
 CREATE TABLE weatherflowdb.forecastDS_daily (
 	datestamp DATE NOT NULL,
-	description varchar(45) DEFAULT NULL,
+	description varchar(100) DEFAULT NULL,
 	imagename varchar(45) DEFAULT NULL,
 	tempMax decimal(4,1) DEFAULT NULL,
 	tempMin decimal(4,1) DEFAULT NULL,
@@ -189,13 +189,14 @@ CREATE TABLE weatherflowdb.forecastDS_daily (
   uvindex int(11) DEFAULT NULL,
 	copyrighttext varchar(100) DEFAULT "",
 	copyrighturl varchar(100) DEFAULT "",
+  updatetime DATETIME NULL,
   PRIMARY KEY (datestamp));
 
 /* Create table forecastDS_daily - Holds the daily Dark Sky Hourly forecast */
 DROP TABLE IF EXISTS weatherflowdb.forecastDS_hourly;
 CREATE TABLE weatherflowdb.forecastDS_hourly (
 	datestamp DATETIME NOT NULL,
-	description varchar(45) DEFAULT NULL,
+	description varchar(100) DEFAULT NULL,
 	imagename varchar(45) DEFAULT NULL,
 	temperature decimal(4,1) DEFAULT NULL,
 	precipitation decimal(4,1) DEFAULT NULL,
@@ -207,13 +208,14 @@ CREATE TABLE weatherflowdb.forecastDS_hourly (
   uvindex int(11) DEFAULT NULL,
 	copyrighttext varchar(100) DEFAULT "",
 	copyrighturl varchar(100) DEFAULT "",
+  updatetime DATETIME NULL,
   PRIMARY KEY (datestamp));
 
 /* Create table forecastWU_daily - Holds the daily Weather Underground Daily forecast */
 DROP TABLE IF EXISTS weatherflowdb.forecastWU_daily;
 CREATE TABLE weatherflowdb.forecastWU_daily (
 	datestamp DATE NOT NULL,
-	description varchar(45) DEFAULT NULL,
+	description varchar(100) DEFAULT NULL,
 	imagename varchar(45) DEFAULT NULL,
 	tempMax decimal(4,1) DEFAULT NULL,
 	tempMin decimal(4,1) DEFAULT NULL,
@@ -226,13 +228,14 @@ CREATE TABLE weatherflowdb.forecastWU_daily (
   uvindex int(11) DEFAULT NULL,
 	copyrighttext varchar(100) DEFAULT "",
 	copyrighturl varchar(100) DEFAULT "",
+  updatetime DATETIME NULL,
   PRIMARY KEY (datestamp));
 
 /* Create table forecastWU_hourly - Holds the daily Weather Underground Hourly forecast */
 DROP TABLE IF EXISTS weatherflowdb.forecastWU_hourly;
 CREATE TABLE weatherflowdb.forecastWU_hourly (
 	datestamp DATETIME NOT NULL,
-	description varchar(45) DEFAULT NULL,
+	description varchar(100) DEFAULT NULL,
 	imagename varchar(45) DEFAULT NULL,
 	temperature decimal(4,1) DEFAULT NULL,
 	precipitation decimal(4,1) DEFAULT NULL,
@@ -244,6 +247,7 @@ CREATE TABLE weatherflowdb.forecastWU_hourly (
   uvindex int(11) DEFAULT NULL,
 	copyrighttext varchar(100) DEFAULT "",
 	copyrighturl varchar(100) DEFAULT "",
+  updatetime DATETIME NULL,
   PRIMARY KEY (datestamp));
 
 /* Create table realtime - holds the latest record from the other tables,
@@ -633,6 +637,24 @@ BEGIN
 	/* Now that we have Wind Chill - Update Feels Like*/
 	UPDATE air_observations
 	SET feelslike = getFeelsLike(temperature, windchill,heatindex);
+
+  /* Add Max and Min Values from AIR Table to daily_summary */
+  SET @firstDate = (SELECT LogDate FROM weatherflowdb.daily_summary ORDER BY LogDate ASC LIMIT 1);
+  INSERT INTO weatherflowdb.daily_summary (LogDate, datestamp, tempTH, tempTL, pressTH, pressTL)
+  SELECT date(datestamp),DATE(datestamp),MAX(temperature) AS tempTH, MIN(temperature) AS tempTL, MAX(barometer) AS pressTH, MIN(barometer) as pressTL FROM weatherflowdb.air_observations
+  WHERE datestamp < @firstDate
+  GROUP BY DATE(datestamp);
+
+  /* Add Max Values from SKY Table to daily_summary */
+  SET @firstDate = (SELECT LogDate FROM weatherflowdb.daily_summary WHERE windTM IS NOT NULL ORDER BY LogDate ASC LIMIT 1);
+  UPDATE weatherflowdb.daily_summary d
+  JOIN (
+  SELECT date(datestamp) AS LogDate,MAX(wind_avg) AS windTM, MAX(wind_gust) AS wgustTM, MAX(uv) as uvTM, MAX(solarrad) AS solarTM FROM weatherflowdb.sky_observations
+  WHERE datestamp < @firstDate
+  GROUP BY DATE(datestamp)) s
+  ON d.LogDate = s.LogDate
+  SET d.windTM = s.windTM, d.wgustTM = s.wgustTM, d.uvTM = s.uvTM, d.solarTM = s.solarTM;
+
 END$$
 
 DELIMITER ;
