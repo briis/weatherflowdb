@@ -120,8 +120,12 @@ function getWindChill($tempC, $windMs){
   // $windChillF = 35.74 + (0.6215 * $tempF) - (35.75 * pow($windMph,0.16)) + (0.4275 * $tempF * pow($windMph,0.16));
 //  return ($windChillF - 32) * 5/9; //Convert Wind Chill in F to C
 
-  if ($windMs == 0) {$windMs = 0.1;}
-  return (13.12 + (0.6215 * $tempC) - (11.37 * ($windMs ** 0.16)) + (0.3965 * $tempC * ($windMs ** 0.16)));
+  if ($windMs < 1.3) {
+    return $tempC;
+  } else {
+    $windKMH = $windMs / 0.27777777777778;
+    return (13.12 + (0.6215 * $tempC) - (11.37 * ($windKMH ** 0.16)) + (0.3965 * $tempC * ($windKMH ** 0.16)));
+  }
 }
 
 //Returns Humidity Index as Temperature C
