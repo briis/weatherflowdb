@@ -115,11 +115,13 @@ function getCloudBase($temp, $hum) {
 //  Temperature in C
 //  Latest Wind Speed in m/s
 function getWindChill($tempC, $windMs){
-  $tempF = (9/5 * $tempC)+32; //Convert C to F
-  $windMph = ($windMs / 0.44704); //Convert m/s to Mph
-  $windChillF = 35.74 + (0.6215 * $tempF) - (35.75 * pow($windMph,0.16)) + (0.4275 * $tempF * pow($windMph,0.16));
+  // $tempF = (9/5 * $tempC)+32; //Convert C to F
+  // $windMph = ($windMs / 0.44704); //Convert m/s to Mph
+  // $windChillF = 35.74 + (0.6215 * $tempF) - (35.75 * pow($windMph,0.16)) + (0.4275 * $tempF * pow($windMph,0.16));
+//  return ($windChillF - 32) * 5/9; //Convert Wind Chill in F to C
 
-  return ($windChillF - 32) * 5/9; //Convert Wind Chill in F to C
+  if ($windMs == 0) {$windMs = 0.1;}
+  return (13.12 + (0.6215 * $tempC) - (11.37 * ($windMs ** 0.16)) + (0.3965 * $tempC * ($windMs ** 0.16)));
 }
 
 //Returns Humidity Index as Temperature C

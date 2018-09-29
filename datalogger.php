@@ -13,7 +13,7 @@ include('weatherfunctions.php');
 include('cumulusfunctions.php');
 
 $program_version = "1.0";
-$program_build = "013";
+$program_build = "014";
 
 // Setup Error Logging
 $errorFile = $logdirectory.'weatherflowdb-datalogger-errors.log';
@@ -89,6 +89,7 @@ try {
             $obdataarray         = $rawdata->ob;
             $datestamp           = convertEpoch($obdataarray[0], $TZ);
             $WindSpeedRapid      = $obdataarray[1];
+            $WindSpeed           = $WindSpeedRapid;
             if ($WindSpeedRapid > 0) {$WindDirection = $obdataarray[2];}
             $wDirSymbol          = getWindDirString($WindDirection);
 
