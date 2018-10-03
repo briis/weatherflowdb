@@ -1,7 +1,7 @@
 # WeatherFlowDB
 This set of PHP Scripts reads UDP data from a WeatherFlow Weather System and stores them in realtime in a MYSQL Database.
 
-<strong>Version</strong>: 1.0-014
+<strong>Version</strong>: 1.0-015
 
 The Company WeatherFlow (https://weatherflow.com) has created an excellent and low cost Weather Station that can broadcast data in realtime over UDP. The aim of this program is to capture these data, make some Weather related calculations, and then store that data in realtime in a MYSQL database.
 
