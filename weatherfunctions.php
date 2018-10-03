@@ -123,8 +123,8 @@ function getWindChill($tempC, $windMs){
   if ($windMs < 1.3) {
     return $tempC;
   } else {
-    $windKMH = $windMs / 0.27777777777778;
-    return (13.12 + (0.6215 * $tempC) - (11.37 * ($windKMH ** 0.16)) + (0.3965 * $tempC * ($windKMH ** 0.16)));
+    $windKMH = $windMs / 0.27777777777778; // Convert m/s to km/h
+    return ROUND(13.12 + (0.6215 * $tempC) - (11.37 * ($windKMH ** 0.16)) + (0.3965 * $tempC * ($windKMH ** 0.16)),2);
   }
 }
 
