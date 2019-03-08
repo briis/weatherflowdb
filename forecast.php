@@ -138,7 +138,7 @@ function getDarkSkyDailyForecast($apiKey, $lat, $lon, $language, $unit, $TZ) {
     $icon = $row['icon'];
     $tempmax = $row['temperatureMax'];
     $tempmin = $row['temperatureMin'];
-    $precipitation = $row['precipIntensity'];
+    $precipitation = $row['precipIntensity']*24;
     $precipProbability = $row['precipProbability']*100;
     $windSpeed = $row['windSpeed'];
     $avgbearing = $row['windBearing'];
